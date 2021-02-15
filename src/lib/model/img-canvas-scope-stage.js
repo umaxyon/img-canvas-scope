@@ -27,6 +27,19 @@ class ImgCanvasScopeStage {
         }
     }
 
+    getView() {
+        const v = this.curView;
+        const size = this.getSize();
+
+        let x = (v.x > 0) ? 0 : v.x;
+        const canvasWidth = this.ics.clientWidth;
+        x = (Math.abs(x) > size.w - canvasWidth) ? 0 - size.w + canvasWidth : x;
+        let y = (v.y > 0) ? 0 : v.y;
+        const canvasHeight = this.ics.clientHeight;
+        y = (Math.abs(y) > size.h - canvasHeight) ? 0 - size.h + canvasHeight: y;
+        return {...v, x, y}
+    }
+
     getSize() {
         const img = this.target.get();
         const w = Math.max(img.w, this.ics.clientWidth);
@@ -54,7 +67,8 @@ class ImgCanvasScopeStage {
         const w = Math.min(this.ics.clientWidth, img.w);
         const h = Math.min(this.ics.clientHeight, img.h);
 
-        this.target.setRect({x:-this.curView.x, y:-this.curView.y, w, h});
+        const v = this.getView();
+        this.target.setRect({x:-v.x, y:-v.y, w, h});
         this.target.draw(this.ctx);
     }
 }
