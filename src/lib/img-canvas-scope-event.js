@@ -9,6 +9,16 @@ class ImgCanvasScopeEvent {
         for(const eventType of ['mousemove', 'mousedown', 'mouseup', 'mouseenter', 'mouseleave']) {
             this.ics.addEventListener(eventType, this, false);
         }
+
+        new ResizeObserver(entries => {
+            const target = entries[0];
+            this.ics.style.width = `${target.contentRect.width}px`;
+            if (target.contentRect.height > 0) {
+                this.ics.style.height = `${target.contentRect.height}px`;
+            }
+            this.ics.stage.resetCanvasSize();
+            this.ics.stage.draw();
+        }).observe(this.ics.parentElement);
     }
 
     handleEvent(e) {
