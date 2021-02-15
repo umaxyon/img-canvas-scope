@@ -11,7 +11,8 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
     }
 
     loop(ctx) {
-        console.debug(ctx);
+        console.log(`[loop] ctx.duration=${ctx.duration}`);
+        return true;
     }
 
     static async getInstance(ics) {
@@ -20,6 +21,7 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
     }
 
     start() {
+        super.force('main_loop').annimationFlash();
     }
 }
 

@@ -1,7 +1,8 @@
 class IntervalTrigger {
     constructor() {
         this.events = {};
-        this._ev = {}
+        this._ev = {};
+        this._force = {};
     }
 
     initEvent() {
@@ -9,7 +10,7 @@ class IntervalTrigger {
             for (const [k, ev] of Object.entries(this._ev)) {
                 this.events[k] = this._ev[k];
                 this.events[k]['start'] = this.now;
-                delete this._ev[k]
+                delete this._ev[k];
             }
         }
     }
@@ -20,6 +21,11 @@ class IntervalTrigger {
         }
     }
 
+    force(key) {
+        this._force[key] = true;
+        return this;
+    }
+
     annimationFlash(timestamp) {
         this.update(timestamp);
         requestAnimationFrame(tm => this.annimationFlash.call(this, tm));
@@ -27,6 +33,24 @@ class IntervalTrigger {
 
     update(timestamp) {
         if (timestamp === undefined) return;
+
+        this.now = Math.floor(timestamp);
+        this.initEvent();
+        const endEvents = [], tm = this.now;
+        for (const [k, ev] of Object.entries(this.events)) {
+            if ((tm - ev.start) > ev.timing) {
+                const ctx = { start: ev.start, now: tm, duration: (tm - ev.start), force: !!this._force[k] }
+                if (ev.fn(ctx)) {
+                    if (ev.duration < 0 || ev.duration <= tm - ev.start) {
+                        ev.start = tm;
+                    } 
+                } else {
+                    endEvents.push(k);
+                }
+                delete this._force[k];
+            }
+        }
+        endEvents.forEach(k => delete this.events[k]);
     }
 }
 export default IntervalTrigger;
