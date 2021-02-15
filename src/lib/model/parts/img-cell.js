@@ -10,14 +10,14 @@ class ImgCell {
         this.rect = rect
     }
 
-    getImg() {
-        return ImageCache.cache[this.path].img;
+    get() {
+        return ImageCache.cache[this.path];
     }
 
     draw(ctx) {
         if (this.rect) {
             const { x, y, w, h } = this.rect;
-            ctx.drawImage(this.getImg(), x, y, w, h, 0, 0, w, h);
+            ctx.drawImage(this.get().img, x, y, w, h, 0, 0, w, h);
         }
     }
 }

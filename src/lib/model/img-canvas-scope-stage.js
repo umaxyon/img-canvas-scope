@@ -13,12 +13,28 @@ class ImgCanvasScopeStage {
 
         this.curView = { x: 0, y: 0 };
         this.prevView = { x: 0, y: 0 };
+
+        this.target = null;
+    }
+
+    load() {
+        this.target = new ImgCell(this.ics.getAttribute('src'));
     }
 
     debug() {
         if (this.ics.isDebug('stage')) {
             console.log(`[stage]  curX=${this.curView.x} curY=${this.curView.y} prevX=${this.prevView.x} prevY=${this.prevView.y}`);
         }
+    }
+
+    resetCanvasSize() {
+        const img = this.target.get();
+
+        const w = Math.max(img.w, this.ics.clientWidth);
+        const h = Math.max(img.h, this.ics.clientHeight);
+
+        this.canvas.width = w;
+        this.canvas.height = h;
     }
 
     isChangeView() {
@@ -28,9 +44,10 @@ class ImgCanvasScopeStage {
     draw() {
         this.debug();
         
-        const img = new ImgCell(this.ics.getAttribute('src'));
-        img.setRect({x:-this.curView.x, y:-this.curView.y, w:300, h:300});
-        img.draw(this.ctx);
+        this.resetCanvasSize();
+
+        this.target.setRect({x:-this.curView.x, y:-this.curView.y, w:300, h:300});
+        this.target.draw(this.ctx);
     }
 }
 export default ImgCanvasScopeStage;
