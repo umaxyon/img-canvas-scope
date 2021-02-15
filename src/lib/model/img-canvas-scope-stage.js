@@ -1,4 +1,5 @@
 import ImgCell from './parts/img-cell';
+import View from './parts/view';
 
 class ImgCanvasScopeStage {
     constructor(ics) {
@@ -11,8 +12,7 @@ class ImgCanvasScopeStage {
         this.canvas.style.boxSizing = "border-box";
         this.ics.appendChild(this.canvas);
 
-        this.curView = { x: 0, y: 0 };
-        this.prevView = { x: 0, y: 0 };
+        this.view = new View();
 
         this.target = null;
     }
@@ -23,12 +23,12 @@ class ImgCanvasScopeStage {
 
     debug() {
         if (this.ics.isDebug('stage')) {
-            console.log(`[stage]  curX=${this.curView.x} curY=${this.curView.y} prevX=${this.prevView.x} prevY=${this.prevView.y}`);
+            console.log(`[stage] ${this.view.toString()}`);
         }
     }
 
     getView() {
-        const v = this.curView;
+        const v = this.view;
         const size = this.getSize();
 
         let x = (v.x > 0) ? 0 : v.x;
@@ -55,7 +55,7 @@ class ImgCanvasScopeStage {
     }
 
     isChangeView() {
-        return this.prevView.x !== this.curView.x || this.prevView.y !== this.curView.y;
+        return this.view.x !== this.view.preX || this.view.y !== this.view.preY;
     }
 
     draw() {

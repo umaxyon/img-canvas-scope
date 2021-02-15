@@ -1,5 +1,3 @@
-import { clone } from './core/util';
-
 class ImgCanvasScopeEvent {
     constructor(ics) {
         this.ics = ics;
@@ -42,42 +40,34 @@ class ImgCanvasScopeEvent {
     }
 
     mouseup() {
-        const velocityX = this.ics.stage.curView.x - this.ics.stage.prevView.x;
-        const velocityY = this.ics.stage.curView.y - this.ics.stage.prevView.y;
+        const velo = this.ics.stage.view.velocity();
         const decayTime = 600;
 
         this.ics.trigger.setEvent('drag_smooth', (ctx) => {
-            let vx = velocityX, vy = velocityY;
+            let vx = velo.x, vy = velo.y;
             return (() => {
                 this.ics.stage.debug('drag_sm', `duration=${ctx.duration} vx=${vx} vy=${vy}`);
 
                 vx -= (vx * (ctx.duration / decayTime));
                 vy -= (vy * (ctx.duration / decayTime));
 
-                this.ics.stage.curView.x += vx;
-                this.ics.stage.curView.y += vy;
+                this.ics.stage.view.update(vx, vy);
     
-                return (ctx.duration < decayTime) 
+                return (ctx.duration < decayTime);
             })();
         }, decayTime);
     }
 
     mousemove(e) {
         if (e.btn === 1 && e.cursorIn) {
-            this.ics.stage.prevView = clone(this.ics.stage.curView);
-
-            this.ics.stage.curView.x += e.dx;
-            this.ics.stage.curView.y += e.dy;
+            this.ics.stage.view.update(e.dx, e.dy);
 
             if (this.ics.settings.limit) {
                 const size = this.ics.stage.getSize();
                 const limitX = 0 - (size.w - this.ics.clientWidth);
                 const limitY = 0 - (size.h - this.ics.clientHeight);
-    
-                if (this.ics.stage.curView.x > 0) this.ics.stage.curView.x = 0;
-                if (this.ics.stage.curView.x < limitX) this.ics.stage.curView.x = limitX;
-                if (this.ics.stage.curView.y > 0) this.ics.stage.curView.y = 0;
-                if (this.ics.stage.curView.y < limitY) this.ics.stage.curView.y = limitY;
+                
+                this.ics.stage.view.limit(limitX, limitY);
             }
         }
     }
