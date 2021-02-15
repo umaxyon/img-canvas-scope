@@ -21,7 +21,7 @@ class ImgCanvasScope extends HTMLElement {
 
     setStyle() {
         this.style.width = `${this.getAttribute('width') || this.parentElement.offsetWidth}px`;
-        const height = this.getAttribute('height') || this.parentElement.offsetHeight;
+        let height = this.getAttribute('height') || this.parentElement.offsetHeight;
         if (height === 0 && this.parentElement.localName == 'body' && this.parentElement.offsetHeight === 0) height = 300;
         this.style.height = `${height}px`;
         this.style.display = 'block';
