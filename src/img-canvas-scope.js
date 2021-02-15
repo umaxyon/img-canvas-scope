@@ -1,5 +1,5 @@
-import ImageCache from './core/img-cache';
-import ImageCanvasScopeAnimator from './img-canvas-scope-animator';
+import ImageCache from './lib/core/img-cache';
+import ImageCanvasScopeAnimator from './lib/img-canvas-scope-animator';
 
 class ImgCanvasScope extends HTMLElement {
     constructor() {
