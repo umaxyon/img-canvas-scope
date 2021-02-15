@@ -41,7 +41,7 @@ class ImgCanvasScopeEvent {
         return { type: e.type, x, y, dx, dy, btn, cursorIn };
     }
 
-    mouseup(e) {
+    mouseup() {
         const velocityX = this.ics.stage.curView.x - this.ics.stage.prevView.x;
         const velocityY = this.ics.stage.curView.y - this.ics.stage.prevView.y;
         const decayTime = 600;
