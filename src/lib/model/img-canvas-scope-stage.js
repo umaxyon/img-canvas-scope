@@ -29,7 +29,7 @@ class ImgCanvasScopeStage {
         this.debug();
         
         const img = new ImgCell(this.ics.getAttribute('src'));
-        img.setRect({x:0, y:0, w:300, h:300});
+        img.setRect({x:-this.curView.x, y:-this.curView.y, w:300, h:300});
         img.draw(this.ctx);
     }
 }
