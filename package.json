@@ -4,7 +4,7 @@
   "description": "Image tags that can be dragged within the display area",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:dev": "npx webpack"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/umaxyon/img-canvas-scope#readme",
   "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-loader": "^4.0.2",
     "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"

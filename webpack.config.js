@@ -13,6 +13,16 @@ const conf = {
     optimization: {
         minimize: false,
         minimizer: []
+    },
+    module: {
+        rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
+            }
+        ]
     }
 };
 
