@@ -25,7 +25,6 @@ if (IS_DEVELOP) {
     conf.optimization.minimizer.push(
         new TerserPlugin({
             terserOptions: {
-                compress: true,
                 compress: { drop_console: true }
             }
         })
