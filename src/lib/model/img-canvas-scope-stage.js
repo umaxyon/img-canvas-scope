@@ -11,13 +11,18 @@ class ImgCanvasScopeStage {
         this.canvas.style.boxSizing = "border-box";
         this.ics.appendChild(this.canvas);
 
-        this.view = { x: 0, y: 0 };
+        this.curView = { x: 0, y: 0 };
+        this.prevView = { x: 0, y: 0 };
     }
 
     debug() {
         if (this.ics.isDebug('stage')) {
-            console.log(`[stage] x=${this.view.x} y=${this.view.y}`);
+            console.log(`[stage]  curX=${this.curView.x} curY=${this.curView.y} prevX=${this.prevView.x} prevY=${this.prevView.y}`);
         }
+    }
+
+    isChangeView() {
+        return this.prevView.x !== this.curView.x || this.prevView.y !== this.curView.y;
     }
 
     draw() {

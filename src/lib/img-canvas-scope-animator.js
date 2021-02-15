@@ -2,6 +2,7 @@ import ImageCache from './core/img-cache';
 import IntervalTrigger from './core/interval-trigger';
 import ImgCanvasScopeStage from './model/img-canvas-scope-stage';
 import ImgCanvasScopeEvent from './img-canvas-scope-event';
+import { clone } from './core/util';
 
 class ImageCanvasScopeAnimator extends IntervalTrigger {
     constructor(ics) {
@@ -25,9 +26,11 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
     loop(ctx) {
         this.debug(ctx);
 
-        // if (ctx.force) {
+        if (ctx.force || this.stage.isChangeView()) {
             this.stage.draw()
-        // }
+        }
+
+        this.stage.prevView = clone(this.stage.curView);
         return true;
     }
 

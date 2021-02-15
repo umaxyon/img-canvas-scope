@@ -33,8 +33,10 @@ class ImgCanvasScopeEvent {
     }
 
     mousemove(e) {
-        this.ics.stage.view.x += e.dx;
-        this.ics.stage.view.y += e.dy;
+        if (e.btn === 1 && e.cursorIn) {
+            this.ics.stage.curView.x += e.dx;
+            this.ics.stage.curView.y += e.dy;
+        }
     }
 }
 export default ImgCanvasScopeEvent;
