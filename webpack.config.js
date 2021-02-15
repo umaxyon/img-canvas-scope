@@ -11,15 +11,8 @@ const conf = {
         path: path.join(__dirname, 'dist')
     },
     optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    compress: true,
-                    compress: { drop_console: true }
-                }
-            })
-        ]
+        minimize: false,
+        minimizer: []
     }
 };
 
@@ -28,6 +21,15 @@ if (IS_DEVELOP) {
     conf.devtool = 'source-map';
 } else {
     conf.mode = 'production';
+    conf.optimization.minimize = true;
+    conf.optimization.minimizer.push(
+        new TerserPlugin({
+            terserOptions: {
+                compress: true,
+                compress: { drop_console: true }
+            }
+        })
+    )
 }
 
 module.exports = conf;
