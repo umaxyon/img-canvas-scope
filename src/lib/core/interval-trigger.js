@@ -19,7 +19,7 @@ class IntervalTrigger {
 
     setEvent(key, fn, duration, timing) {
         if (!hasProperty(this._ev, key)) {
-            this._ev[key] = { fn, duration: (duration || -1), timing:(timing || 20) };
+            this._ev[key] = { fn, duration: (duration || -1), timing:(timing || 20), data: {} };
         }
     }
 
@@ -41,7 +41,7 @@ class IntervalTrigger {
         const endEvents = [], tm = this.now;
         for (const [k, ev] of Object.entries(this.events)) {
             if ((tm - ev.start) > ev.timing) {
-                const ctx = { start: ev.start, now: tm, duration: (tm - ev.start), force: !!this._force[k] }
+                const ctx = { start: ev.start, now: tm, duration: (tm - ev.start), force: !!this._force[k], data: ev.data }
                 if (ev.fn(ctx)) {
                     if (ev.duration < 0 || ev.duration <= tm - ev.start) {
                         ev.start = tm;
