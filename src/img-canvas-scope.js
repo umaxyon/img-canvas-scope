@@ -1,4 +1,5 @@
 import ImageCache from './core/img-cache';
+import ImageCanvasScopeAnimator from './img-canvas-scope-animator';
 
 class ImgCanvasScope extends HTMLElement {
     constructor() {
@@ -29,7 +30,9 @@ class ImgCanvasScope extends HTMLElement {
         this.style.position = 'absolute';
     }
 
-    start() {
+    async start() {
+        const animator = await ImageCanvasScopeAnimator.getInstance(this);
+        animator.start();
     }
 }
 customElements.define("img-canvas-scope", ImgCanvasScope);
