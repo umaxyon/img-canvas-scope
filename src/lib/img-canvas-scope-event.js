@@ -40,21 +40,10 @@ class ImgCanvasScopeEvent {
     }
 
     mouseup() {
-        const velo = this.ics.stage.view.velocity();
         const decayTime = 600;
-
-        this.ics.trigger.setEvent('drag_smooth', (ctx) => {
-            let vx = velo.x, vy = velo.y;
-            return (() => {
-                this.ics.stage.debug('drag_sm', `duration=${ctx.duration} vx=${vx} vy=${vy}`);
-
-                vx -= (vx * (ctx.duration / decayTime));
-                vy -= (vy * (ctx.duration / decayTime));
-
-                this.ics.stage.view.update(vx, vy);
-    
-                return (ctx.duration < decayTime);
-            })();
+        this.ics.trigger.setEvent('smooth', (ctx) => {
+            ctx.data.initSet('smooth', this.ics.stage.view.integrator().toAfterMillisec(decayTime));
+            return this.ics.stage.view.updateIntegrate(ctx.data.smooth, ctx.duration);
         }, decayTime);
     }
 

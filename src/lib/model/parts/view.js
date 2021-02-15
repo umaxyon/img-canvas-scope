@@ -1,4 +1,5 @@
 import { clone } from '../../core/util';
+import Integrator from '../../core/integrator';
 
 class View {
     constructor() {
@@ -22,6 +23,12 @@ class View {
         return this.prev.y;
     }
 
+    updateIntegrate(it, duration) {
+        it.update(duration);
+        this.update(it.x, it.y);
+        return duration < it.endTime;
+    }
+
     update(x, y) {
         this.prev = clone(this.current);
         this.current.x += x;
@@ -37,6 +44,10 @@ class View {
 
     velocity() {
         return {x: (this.current.x - this.prev.x), y: (this.current.y - this.prev.y)};
+    }
+
+    integrator() {
+        return new Integrator(this.velocity());
     }
 
     toString() {

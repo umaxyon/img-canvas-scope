@@ -5,6 +5,7 @@ class IntervalTrigger {
         this.events = {};
         this._ev = {};
         this._force = {};
+        this._initSet =  function(k, v) { if (!hasProperty(this, k)) this[k] = v; }
     }
 
     initEvent() {
@@ -19,7 +20,9 @@ class IntervalTrigger {
 
     setEvent(key, fn, duration, timing) {
         if (!hasProperty(this._ev, key)) {
-            this._ev[key] = { fn, duration: (duration || -1), timing:(timing || 20), data: {} };
+            const data = {};
+            data.initSet = this._initSet.bind(data);
+            this._ev[key] = { fn, duration: (duration || -1), timing:(timing || 20), data };
         }
     }
 
