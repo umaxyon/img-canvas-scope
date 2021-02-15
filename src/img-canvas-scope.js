@@ -5,7 +5,11 @@ class ImgCanvasScope extends HTMLElement {
     constructor() {
         super();
         this.start = this.start.bind(this);
-        this.settings = { debug: false };
+        this.settings = { debug: { allStop: false, animator: false, stage: true } };
+    }
+
+    isDebug(key) {
+        return !this.settings.debug.allStop && this.settings.debug[key];
     }
 
     static get observedAttributes() {

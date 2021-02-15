@@ -10,9 +10,19 @@ class ImgCanvasScopeStage {
         this.canvas.style.verticalAlign = "middle";
         this.canvas.style.boxSizing = "border-box";
         this.ics.appendChild(this.canvas);
+
+        this.view = { x: 0, y: 0 };
+    }
+
+    debug() {
+        if (this.ics.isDebug('stage')) {
+            console.log(`[stage] x=${this.view.x} y=${this.view.y}`);
+        }
     }
 
     draw() {
+        this.debug();
+        
         const img = new ImgCell(this.ics.getAttribute('src'));
         img.setRect({x:0, y:0, w:300, h:300});
         img.draw(this.ctx);

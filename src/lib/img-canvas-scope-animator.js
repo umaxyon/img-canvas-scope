@@ -16,11 +16,18 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
         super.setEvent('main_loop', this.loop.bind(this), 1, 1);
     }
 
-    loop(ctx) {
-        console.log(`[loop] ctx.duration=${ctx.duration}`);
-        if (ctx.force) {
-            this.stage.draw()
+    debug(ctx) {
+        if (this.ics.isDebug('animator')) {
+            console.log(`[loop] ctx.duration=${ctx.duration}`);
         }
+    }
+
+    loop(ctx) {
+        this.debug(ctx);
+
+        // if (ctx.force) {
+            this.stage.draw()
+        // }
         return true;
     }
 
