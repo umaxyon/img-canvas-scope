@@ -36,6 +36,17 @@ class ImgCanvasScopeEvent {
         if (e.btn === 1 && e.cursorIn) {
             this.ics.stage.curView.x += e.dx;
             this.ics.stage.curView.y += e.dy;
+
+            if (this.ics.settings.limit) {
+                const size = this.ics.stage.getSize();
+                const limitX = 0 - (size.w - this.ics.clientWidth);
+                const limitY = 0 - (size.h - this.ics.clientHeight);
+    
+                if (this.ics.stage.curView.x > 0) this.ics.stage.curView.x = 0;
+                if (this.ics.stage.curView.x < limitX) this.ics.stage.curView.x = limitX;
+                if (this.ics.stage.curView.y > 0) this.ics.stage.curView.y = 0;
+                if (this.ics.stage.curView.y < limitY) this.ics.stage.curView.y = limitY;
+            }
         }
     }
 }

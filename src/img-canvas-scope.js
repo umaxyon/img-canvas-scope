@@ -5,7 +5,7 @@ class ImgCanvasScope extends HTMLElement {
     constructor() {
         super();
         this.start = this.start.bind(this);
-        this.settings = { debug: { allStop: false, animator: false, stage: true } };
+        this.settings = { debug: { allStop: false, animator: false, stage: true }, limit: true, defaultHeight: 300 };
     }
 
     isDebug(key) {
@@ -26,7 +26,7 @@ class ImgCanvasScope extends HTMLElement {
     setStyle() {
         this.style.width = `${this.getAttribute('width') || this.parentElement.offsetWidth}px`;
         let height = this.getAttribute('height') || this.parentElement.offsetHeight;
-        if (height === 0 && this.parentElement.localName == 'body' && this.parentElement.offsetHeight === 0) height = 300;
+        if (height === 0 && this.parentElement.localName == 'body' && this.parentElement.offsetHeight === 0) height = this.settings.defaultHeight;
         this.style.height = `${height}px`;
         this.style.display = 'block';
         this.style.boxSizing ='border-box';
