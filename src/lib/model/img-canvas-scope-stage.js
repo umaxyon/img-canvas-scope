@@ -54,8 +54,8 @@ class ImgCanvasScopeStage {
         this.canvas.height = h;
     }
 
-    isChangeView() {
-        return this.view.x !== this.view.preX || this.view.y !== this.view.preY;
+    isChangeView(force) {
+        return force || this.view.x !== this.view.preX || this.view.y !== this.view.preY;
     }
 
     draw() {

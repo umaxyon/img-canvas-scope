@@ -26,7 +26,7 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
     loop(ctx) {
         this.debug(ctx);
 
-        if (ctx.force || this.stage.isChangeView()) {
+        if (this.stage.isChangeView(ctx.force)) {
             this.stage.draw()
         }
 
