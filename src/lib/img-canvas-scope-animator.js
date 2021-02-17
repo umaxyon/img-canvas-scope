@@ -8,7 +8,6 @@ class ImageCanvasScopeAnimator extends IntervalTrigger {
         super();
         this.ics = ics;
         this.ics.trigger = this;
-        this.ics.setStyle();
         
         this.stage = new ImgCanvasScopeStage(this.ics);
         this.event = new ImgCanvasScopeEvent(this.ics);

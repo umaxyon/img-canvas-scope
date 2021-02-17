@@ -5,7 +5,7 @@ class ImgCanvasScope extends HTMLElement {
     constructor() {
         super();
         this.start = this.start.bind(this);
-        this.settings = { debug: { allStop: false, animator: false, stage: true }, limit: true, defaultHeight: 300 };
+        this.settings = { debug: { allStop: false, animator: false, stage: true }, limit: true, defaultHeight: '100%' };
     }
 
     isDebug(key) {
@@ -24,10 +24,23 @@ class ImgCanvasScope extends HTMLElement {
     }
 
     setStyle() {
-        this.style.width = `${this.getAttribute('width') || this.parentElement.offsetWidth}px`;
+        const getSize = val => Number.isFinite(val) ? `${val}px` : val;
+        const parent = this.parentElement;
+        if (!parent.offsetHeight) {
+            parent.removeChild(this);
+            const div = document.createElement('div');
+            div.style.boxSizing ='border-box';
+            div.style.height = getSize(this.settings.defaultHeight);
+            div.style.width = '100%';
+            div.appendChild(this);
+            parent.appendChild(div);
+        }
+
+        this.style.width = getSize(this.getAttribute('width') || this.parentElement.offsetWidth);
         let height = this.getAttribute('height') || this.parentElement.offsetHeight;
-        if (height === 0 && this.parentElement.localName == 'body' && this.parentElement.offsetHeight === 0) height = this.settings.defaultHeight;
-        this.style.height = `${height}px`;
+        if (height === 0) height = this.settings.defaultHeight;
+        this.style.height = getSize(height);
+        this.height = height;
         this.style.display = 'block';
         this.style.boxSizing ='border-box';
         this.style.overflow = 'hidden';
@@ -35,6 +48,7 @@ class ImgCanvasScope extends HTMLElement {
     }
 
     async start() {
+        this.setStyle();
         const animator = await ImageCanvasScopeAnimator.getInstance(this);
         animator.start();
     }
